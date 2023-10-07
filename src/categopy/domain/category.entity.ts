@@ -18,7 +18,7 @@ export class Category {
   description: string | null;
   is_active: boolean;
   created_at: Date;
-  
+
   constructor(props: CategoryContructorProps) {
     this.category_id = props.category_id;
     this.name = props.name;
