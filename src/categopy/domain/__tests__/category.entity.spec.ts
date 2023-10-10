@@ -1,8 +1,9 @@
+import { EntityValidationError } from "../../../shared/domain/validators/validation.error";
 import { Uuid } from "../../../shared/domain/value-objects/uuid.vo";
 import { Category } from "../category.entity"
 
 describe('Category Unit Tests', () => {
-  
+
   let validateSpy: any;
   beforeEach(() => {
     validateSpy = jest.spyOn(Category, 'validate');
@@ -164,4 +165,27 @@ describe('Category Unit Tests', () => {
     category.deactivate();
     expect(category.is_active).toBe(false);
   })
-})
+});
+
+describe('Category Validator', () => {
+  describe("create command", () => {
+    test('xpto', () => {
+      expect(() => {
+        Category.create({
+          name: ''
+        });
+      }).toThrow(
+        new EntityValidationError({
+          name: ['name is required']
+        })
+      )
+    });
+    // try {
+    //   Category.create({
+    //     name: null
+    //   })
+    // } catch (e) {
+    //   console.error(e)
+    // }
+  });
+});
