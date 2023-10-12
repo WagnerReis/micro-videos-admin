@@ -11,7 +11,6 @@ type Expected =
 
 expect.extend({
   containsErrorMessages(expected: Expected, received: FieldsErrors) {
-    console.log('aaaa')
     if (typeof expected === 'function') {
       try {
         expected();
