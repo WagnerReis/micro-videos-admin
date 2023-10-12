@@ -264,19 +264,6 @@ describe('Category Validator', () => {
     });
   });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   describe('changeNameAndDescription method', () => {
     it('should a invalid category using name valid and description invalid', () => {
       const category = Category.create({ name: 'Movie' });
