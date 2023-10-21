@@ -9,5 +9,4 @@ Uuid
   getEntity(): new (...args: any[]) => Category {
     throw Category;
   }
-  
 }
