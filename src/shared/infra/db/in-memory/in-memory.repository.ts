@@ -1,7 +1,7 @@
 import { Entity } from "../../../domain/entity";
 import { NotFoundError } from "../../../domain/errors/not-found.error";
 import { IRepository, ISearchableRepository } from "../../../domain/repository/repository.interface";
-import { SearchParams } from "../../../domain/repository/search-params";
+import { SearchParams, SortDirection } from "../../../domain/repository/search-params";
 import { SearchResult } from "../../../domain/repository/search-result";
 import { ValueObject } from "../../../domain/value-object";
 
@@ -78,5 +78,31 @@ export abstract class InMemorySearchableRepository<
     return items.slice(start, limit);
   }
 
-  protected applySort() { }
+  protected applySort(
+    items: E[],
+    sort: string | null,
+    sort_dir: SortDirection | null,
+    custom_getter?: (sort: string, item: E) => any
+  ) {
+    if (!sort || !this.sortableFields.includes(sort)) {
+      return items;
+    }
+
+    return [...items].sort((a, b) => {
+      //@ts-ignore
+      const aValue = custom_getter ? custom_getter(sort, a) : a[sort];
+      //@ts-ignore
+      const bValue = custom_getter ? custom_getter(sort, b) : b[sort];
+
+      if (aValue < bValue) {
+        return sort_dir === "asc" ? -1 : 1;
+      }
+
+      if (aValue > bValue) {
+        return sort_dir === "asc" ? 1 : -1;
+      }
+
+      return 0;
+    });
+  }
 }
